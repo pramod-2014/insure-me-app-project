@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: insure-me-app
+  labels:
+    app: insure-me
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: insure-me
+  template:
+    metadata:
+      labels:
+        app: insure-me
+    spec:
+      containers:
+        - name: insure-me-container
+          image: prmd77/insure-me:3.0
+          ports:
+            - containerPort: 8081
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: insure-me-service
+spec:
+  selector:
+    app: insure-me
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80        # Service port (ClusterIP)
+      targetPort: 8081 # Maps to containerPort
+      nodePort: 32040  # Exposed port on the node
