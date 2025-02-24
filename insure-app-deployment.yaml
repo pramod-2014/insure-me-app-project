@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: insure-me-container
-          image: prmd77/insure-me:3.0
+          image: prmd77/insure-me:latest
           ports:
             - containerPort: 8081
          
